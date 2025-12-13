@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ingresar | GOBIPEDIA</title>
+
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(180deg, #e6f4ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-card {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #0b5ed7;
+    }
+
+    p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background-color: #0b5ed7;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #084298;
+    }
+
+    #mensaje {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .nota {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-card">
+    <h1>GOBIPEDIA</h1>
+    <p>Acceso a la comunidad académica</p>
+
+    <input
+      type="email"
+      id="email"
+      placeholder="correo@uchile.cl"
+    >
+
+    <button onclick="login()">Ingresar</button>
+
+    <p id="mensaje"></p>
+
+    <div class="nota">
+      Solo se permite el acceso con correos institucionales de la
+      Universidad de Chile.
+    </div>
+  </div>
+
+  <script>
+    // Conexión Supabase (tus datos reales)
+    const supabaseUrl = "https://vcoritivebetnnlksgei.supabase.co";
+    const supabaseKey = "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function login() {
+      const email = document.getElementById("email").value.trim();
+      const mensaje = document.getElementById("mensaje");
+
+      mensaje.style.color = "#d63384";
+
+      if (!email) {
+        mensaje.innerText = "⚠️ Ingresa tu correo institucional.";
+        return;
+      }
+
+      // Validación dominio UChile
+      if (
+        !email.endsWith("@uchile.cl") &&
+        !email.endsWith("@ug.uchile.cl") &&
+        !email.endsWith("@gobierno.uchile.cl")
+      ) {
+        mensaje.innerText =
+          "⚠️ Debes usar un correo institucional de la Universidad de Chile.";
+        return;
+      }
+
+      mensaje.style.color = "#555";
+      mensaje.innerText = "Enviando enlace de acceso…";
+
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email,
+      });
+
+      if (error) {
+        mensaje.style.color = "red";
+        mensaje.innerText = "❌ Error al enviar el correo. Intenta nuevamente.";
+      } else {
+        mensaje.style.color = "green";
+        mensaje.innerText =
+          "📩 Revisa tu correo institucional para ingresar a GOBIPEDIA.";
+      }
+    }
+  </script>
+
+</body>
+</html>
