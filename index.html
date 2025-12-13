@@ -91,7 +91,7 @@
 
     <!-- ÁREA DINÁMICA DE USUARIO -->
     <div id="userArea">
-      <a href="login.html" id="loginLink">
+      <a href="login.html">
         <button>Ingresar a la comunidad</button>
       </a>
     </div>
@@ -122,7 +122,7 @@
     </div>
   </main>
 
-  <!-- SCRIPT SUPABASE + SESIÓN -->
+  <!-- SCRIPT DE SESIÓN (ARREGLADO) -->
   <script>
     /* 1. Inicializar Supabase */
     const supabase = window.supabase.createClient(
@@ -130,12 +130,8 @@
       "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
     );
 
-    /* 2. Renderizar header según sesión */
-    async function renderUserArea() {
-      const {
-        data: { session }
-      } = await supabase.auth.getSession();
-
+    /* 2. Función central para actualizar la UI */
+    function updateUI(session) {
       const userArea = document.getElementById("userArea");
 
       if (!userArea) return;
@@ -161,11 +157,17 @@
     /* 3. Logout */
     async function logout() {
       await supabase.auth.signOut();
-      window.location.href = "index.html";
     }
 
-    /* 4. Ejecutar al cargar */
-    renderUserArea();
+    /* 4. Estado inicial al cargar la página */
+    supabase.auth.getSession().then(({ data }) => {
+      updateUI(data.session);
+    });
+
+    /* 5. Escuchar cambios de sesión (CLAVE) */
+    supabase.auth.onAuthStateChange((_event, session) => {
+      updateUI(session);
+    });
   </script>
 
 </body>
