@@ -4,128 +4,154 @@
   <meta charset="UTF-8">
   <title>GOBIPEDIA | Carrera</title>
 
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(180deg, #e3f2fd, #ffffff);
-      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(180deg, #e6f4ff, #ffffff);
     }
 
     header {
-      background: #1e88e5;
+      background-color: #0b5ed7;
       color: white;
-      padding: 15px 30px;
+      padding: 20px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 15px;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 24px;
     }
 
-    .breadcrumb {
-      background: #f1f8ff;
-      padding: 12px 30px;
-      font-size: 0.95rem;
-    }
-
-    .breadcrumb a {
-      color: #1e88e5;
-      text-decoration: none;
+    header button {
+      background: white;
+      color: #0b5ed7;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
       font-weight: bold;
     }
 
-    .breadcrumb span {
-      color: #555;
-      font-weight: bold;
+    header .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
     }
 
     main {
       padding: 40px;
     }
 
-    h2 {
-      color: #1e88e5;
-      margin-bottom: 20px;
-    }
-
-    .malla {
+    .ramos {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
     }
 
-    .ramo {
+    .ramo-card {
       background: white;
+      padding: 25px;
       border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: transform 0.2s;
-      text-align: center;
     }
 
-    .ramo:hover {
-      transform: scale(1.05);
+    .ramo-card:hover {
+      transform: translateY(-5px);
     }
 
-    .ramo h3 {
-      margin: 0;
-      color: #1565c0;
-    }
-
-    .ramo p {
-      color: #555;
-      font-size: 0.9rem;
+    .ramo-card h3 {
+      color: #0b5ed7;
+      margin-top: 0;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Header -->
+  <!-- HEADER -->
   <header>
-    <h1>GOBIPEDIA</h1>
+    <h1>🐬 GOBIPEDIA</h1>
+
+    <!-- ÁREA DINÁMICA DE USUARIO -->
+    <div id="userArea">
+      <a href="login.html">
+        <button>Ingresar a la comunidad</button>
+      </a>
+    </div>
   </header>
 
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb">
-    <a href="index.html">Inicio</a> →
-    <span>Ciencia Política</span>
-  </nav>
-
-  <!-- Contenido principal -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main>
-    <h2>Malla — Ciencia Política</h2>
+    <h2 id="careerTitle">Carrera</h2>
 
-    <div class="malla">
-
-      <div class="ramo" onclick="location.href='ramo.html'">
+    <div class="ramos">
+      <div class="ramo-card" onclick="location.href='ramo.html?ramo=ideas-politicas'">
         <h3>Ideas Políticas</h3>
-        <p>1° semestre</p>
+        <p>Primer semestre</p>
       </div>
 
-      <div class="ramo">
-        <h3>Introducción a la Ciencia Política</h3>
-        <p>1° semestre</p>
+      <div class="ramo-card" onclick="location.href='ramo.html?ramo=teoria-politica'">
+        <h3>Teoría Política</h3>
+        <p>Segundo semestre</p>
       </div>
-
-      <div class="ramo">
-        <h3>Instituciones Políticas</h3>
-        <p>2° semestre</p>
-      </div>
-
-      <div class="ramo">
-        <h3>Métodos de Investigación</h3>
-        <p>2° semestre</p>
-      </div>
-
     </div>
   </main>
 
+  <!-- SCRIPT SESIÓN (MISMO QUE INDEX) -->
+  <script>
+    /* Inicializar Supabase */
+    const supabase = window.supabase.createClient(
+      "https://vcoritivebetnnlksgei.supabase.co",
+      "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
+    );
+
+    /* Actualizar UI según sesión */
+    function updateUI(session) {
+      const userArea = document.getElementById("userArea");
+
+      if (!userArea) return;
+
+      if (session) {
+        userArea.innerHTML = `
+          <div class="user-info">
+            <span>${session.user.email}</span>
+            <button onclick="logout()">Cerrar sesión</button>
+          </div>
+        `;
+      } else {
+        userArea.innerHTML = `
+          <a href="login.html">
+            <button>Ingresar a la comunidad</button>
+          </a>
+        `;
+      }
+    }
+
+    /* Logout */
+    async function logout() {
+      await supabase.auth.signOut();
+    }
+
+    /* Estado inicial */
+    supabase.auth.getSession().then(({ data }) => {
+      updateUI(data.session);
+    });
+
+    /* Escuchar cambios */
+    supabase.auth.onAuthStateChange((_event, session) => {
+      updateUI(session);
+    });
+  </script>
+
 </body>
 </html>
-
