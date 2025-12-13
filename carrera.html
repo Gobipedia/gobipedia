@@ -153,14 +153,13 @@
 
   /* ================= LÓGICA CARRERA ================= */
   const params = new URLSearchParams(window.location.search);
-  const carrera = params.get("carrera");
-  alert("Carrera recibida: " + carrera);
+  const carrera = params.get("carrera"); // cp
 
   const careerTitle = document.getElementById("careerTitle");
   const ramosContainer = document.getElementById("ramosContainer");
 
-  const mallas = {
-    "ciencia-politica": {
+  const carreras = {
+    cp: {
       nombre: "Ciencia Política",
       ramos: [
         // Primer año – 1° semestre
@@ -231,11 +230,13 @@
     }
   };
 
-  if (!mallas[carrera]) {
+  const data = carreras[carrera];
+
+  if (!data) {
     careerTitle.textContent = "Carrera no encontrada";
   } else {
-    const data = mallas[carrera];
     careerTitle.textContent = `Malla – ${data.nombre}`;
+    ramosContainer.innerHTML = "";
 
     data.ramos.forEach(nombre => {
       const card = document.createElement("div");
