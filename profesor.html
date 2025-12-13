@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>GOBIPEDIA | Profesor</title>
 
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
   <style>
     body {
       margin: 0;
@@ -18,6 +21,7 @@
       padding: 15px 30px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
     }
 
     header h1 {
@@ -138,12 +142,8 @@
       font-size: 0.9rem;
     }
 
-    .subir-apunte {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .subir-apunte button {
+    .subir-apunte button,
+    .accion button {
       background: #1e88e5;
       color: white;
       border: none;
@@ -153,8 +153,24 @@
       font-size: 0.9rem;
     }
 
-    .subir-apunte button:hover {
+    .subir-apunte button:hover,
+    .accion button:hover {
       background: #1565c0;
+    }
+
+    textarea, select {
+      width: 100%;
+      max-width: 100%;
+      padding: 8px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+
+    .bloqueado {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #555;
     }
 
     @media (max-width: 900px) {
@@ -202,25 +218,23 @@
         </div>
       </div>
 
-      <!-- Experiencias -->
+      <!-- Experiencias públicas -->
       <div class="experiencias">
         <h2>Experiencias de estudiantes</h2>
 
         <div class="comentario">
           <strong>Anónimo</strong>
-          <p>Muy clara en sus clases y con excelente manejo teórico. Exigente, pero se aprende mucho.</p>
+          <p>Muy clara en sus clases y con excelente manejo teórico.</p>
         </div>
 
         <div class="comentario">
           <strong>María P.</strong>
-          <p>Buen ramo para entender teoría política contemporánea. Evaluaciones justas.</p>
-        </div>
-
-        <div class="comentario">
-          <strong>Anónimo</strong>
-          <p>Recomendada si te interesa el área teórica y el análisis crítico.</p>
+          <p>Buen ramo para entender teoría política contemporánea.</p>
         </div>
       </div>
+
+      <!-- ZONA PROTEGIDA -->
+      <div id="interactionArea" class="experiencias" style="margin-top:25px;"></div>
 
     </section>
 
@@ -232,15 +246,74 @@
       <div class="apunte">📄 Resumen Hobbes y Locke</div>
       <div class="apunte">📄 Esquema evaluaciones</div>
 
-      <div class="subir-apunte">
-        <button>Subir apunte (PDF)</button>
-        <p style="font-size:0.8rem; color:#555; margin-top:8px;">
-          Máx. 3 archivos · Solo PDF · Sujeto a revisión
-        </p>
-      </div>
+      <!-- ZONA PROTEGIDA -->
+      <div id="uploadArea"></div>
     </aside>
 
   </main>
+
+  <!-- SCRIPT SESIÓN Y PROTECCIÓN -->
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://vcoritivebetnnlksgei.supabase.co",
+      "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
+    );
+
+    async function renderProtectedAreas() {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession();
+
+      const interaction = document.getElementById("interactionArea");
+      const upload = document.getElementById("uploadArea");
+
+      if (session) {
+        interaction.innerHTML = `
+          <h2>Tu experiencia en este ramo</h2>
+          <textarea rows="4" placeholder="Máx. 100 palabras"></textarea>
+          <br><br>
+          <label>Puntuación</label>
+          <select>
+            <option>0 ⭐</option>
+            <option>1 ⭐</option>
+            <option>2 ⭐</option>
+            <option>3 ⭐</option>
+            <option>4 ⭐</option>
+            <option>5 ⭐</option>
+          </select>
+          <br><br>
+          <div class="accion">
+            <button>Publicar experiencia</button>
+          </div>
+        `;
+
+        upload.innerHTML = `
+          <div class="subir-apunte">
+            <button>Subir apunte (PDF)</button>
+            <p style="font-size:0.8rem; color:#555; margin-top:8px;">
+              Máx. 3 archivos · Solo PDF · Sujeto a revisión
+            </p>
+          </div>
+        `;
+      } else {
+        interaction.innerHTML = `
+          <div class="bloqueado">
+            🔒 Debes iniciar sesión con tu correo UChile para comentar
+            <br><br>
+            <a href="login.html"><button>Ingresar</button></a>
+          </div>
+        `;
+
+        upload.innerHTML = `
+          <div class="bloqueado">
+            🔒 Inicia sesión para subir apuntes
+          </div>
+        `;
+      }
+    }
+
+    renderProtectedAreas();
+  </script>
 
 </body>
 </html>
