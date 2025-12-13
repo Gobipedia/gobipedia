@@ -7,138 +7,140 @@
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(180deg, #e3f2fd, #ffffff);
-      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(180deg, #e6f4ff, #ffffff);
     }
 
     header {
-      background: #1e88e5;
+      background-color: #0b5ed7;
       color: white;
-      padding: 15px 30px;
+      padding: 20px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 15px;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.8rem;
-    }
-
-    .breadcrumb {
-      background: #f1f8ff;
-      padding: 12px 30px;
-      font-size: 0.95rem;
-    }
-
-    .breadcrumb a {
-      color: #1e88e5;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .breadcrumb span {
-      color: #555;
-      font-weight: bold;
+      font-size: 24px;
+      cursor: pointer;
     }
 
     main {
       padding: 40px;
+      max-width: 900px;
+      margin: auto;
     }
 
     h2 {
-      color: #1e88e5;
-      margin-bottom: 20px;
+      color: #0b5ed7;
+      margin-bottom: 10px;
     }
 
-    .profesores {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-    }
-
-    .profesor {
+    .panel {
       background: white;
-      border-radius: 18px;
-      padding: 20px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
     }
 
-    .profesor:hover {
-      transform: scale(1.06);
+    .panel h3 {
+      margin-top: 0;
+      color: #0b5ed7;
     }
 
-    .avatar {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: #bbdefb;
-      margin: 0 auto 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-    }
-
-    .profesor h3 {
-      margin: 10px 0 5px;
-      color: #1565c0;
-    }
-
-    .profesor p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    .estrellas {
-      color: #fbc02d;
-      margin-top: 8px;
-      font-size: 1.1rem;
+    .back {
+      margin-bottom: 20px;
+      display: inline-block;
+      color: #0b5ed7;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>GOBIPEDIA</h1>
-  </header>
+<header>
+  <h1 onclick="history.back()">🐬 GOBIPEDIA</h1>
+</header>
 
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb">
-    <a href="index.html">Inicio</a> →
-    <a href="carrera.html">Ciencia Política</a> →
-    <span>Ideas Políticas (1° semestre)</span>
-  </nav>
+<main>
+  <a class="back" href="javascript:history.back()">← Volver</a>
 
-  <!-- Contenido principal -->
-  <main>
-    <h2>Docentes — Ideas Políticas</h2>
+  <h2 id="ramoTitle">Ramo</h2>
 
-    <div class="profesores">
+  <div class="panel">
+    <h3>Descripción</h3>
+    <p id="descripcion"></p>
+  </div>
 
-      <div class="profesor" onclick="location.href='profesor.html'">
-        <div class="avatar">🙂</div>
-        <h3>Claudia Heiss</h3>
-        <p>Profesora Asociada</p>
-        <div class="estrellas">★★★★☆</div>
-      </div>
+  <div class="panel">
+    <h3>Objetivos</h3>
+    <p id="objetivos"></p>
+  </div>
 
-      <div class="profesor">
-        <div class="avatar">😐</div>
-        <h3>Profesor Ejemplo</h3>
-        <p>Profesor Invitado</p>
-        <div class="estrellas">★★★☆☆</div>
-      </div>
+  <div class="panel">
+    <h3>Contenidos</h3>
+    <p id="contenidos"></p>
+  </div>
 
-    </div>
-  </main>
+  <div class="panel">
+    <h3>Bibliografía básica</h3>
+    <p id="bibliografia"></p>
+  </div>
+</main>
+
+<script>
+  /* ================= LÓGICA DEL RAMO ================= */
+
+  const params = new URLSearchParams(window.location.search);
+  const ramo = params.get("ramo");
+
+  const ramoTitle = document.getElementById("ramoTitle");
+  const descripcion = document.getElementById("descripcion");
+  const objetivos = document.getElementById("objetivos");
+  const contenidos = document.getElementById("contenidos");
+  const bibliografia = document.getElementById("bibliografia");
+
+  const ramos = {
+    "Ideas Políticas": {
+      descripcion: "Introducción al estudio de las ideas políticas fundamentales y su impacto en la organización del poder.",
+      objetivos: "Comprender los principales conceptos políticos y su evolución histórica.",
+      contenidos: "Poder, legitimidad, autoridad, ideología, Estado.",
+      bibliografia: "Bobbio, Norberto. Estado, gobierno y sociedad."
+    },
+
+    "Pensamiento Político Moderno": {
+      descripcion: "Análisis del pensamiento político desde la modernidad hasta el siglo XIX.",
+      objetivos: "Examinar los principales autores y corrientes del pensamiento político moderno.",
+      contenidos: "Hobbes, Locke, Rousseau, Kant, Hegel.",
+      bibliografia: "Rousseau, El contrato social; Hobbes, Leviatán."
+    },
+
+    "Gobierno Subnacional": {
+      descripcion: "Estudio de la descentralización, gobiernos locales y regionales.",
+      objetivos: "Analizar estructuras subnacionales y su impacto en la gobernanza.",
+      contenidos: "Descentralización, gobiernos regionales, municipalidades.",
+      bibliografia: "Falleti, T. Descentralización y política."
+    }
+  };
+
+  if (!ramo || !ramos[ramo]) {
+    ramoTitle.textContent = "Ramo no encontrado";
+    descripcion.textContent = "Este ramo aún no tiene contenido cargado.";
+    objetivos.textContent = "-";
+    contenidos.textContent = "-";
+    bibliografia.textContent = "-";
+  } else {
+    ramoTitle.textContent = ramo;
+    descripcion.textContent = ramos[ramo].descripcion;
+    objetivos.textContent = ramos[ramo].objetivos;
+    contenidos.textContent = ramos[ramo].contenidos;
+    bibliografia.textContent = ramos[ramo].bibliografia;
+  }
+</script>
 
 </body>
 </html>
