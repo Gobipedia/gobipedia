@@ -2,62 +2,143 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ramo | GOBIPEDIA</title>
-   <style>
-   body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(180deg, #e3f2fd, #ffffff);
-  min-height: 100vh;
-}
+  <title>GOBIPEDIA | Ramo</title>
 
-header {
-  background: #1e88e5;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #e3f2fd, #ffffff);
+      min-height: 100vh;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-}
+    header {
+      background: #1e88e5;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-main {
-  padding: 40px;
-  text-align: center;
-}
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
 
-a {
-  color: #1e88e5;
-  font-weight: bold;
-  text-decoration: none;
-}
+    .breadcrumb {
+      background: #f1f8ff;
+      padding: 12px 30px;
+      font-size: 0.95rem;
+    }
 
-a:hover {
-  text-decoration: underline;
-}
+    .breadcrumb a {
+      color: #1e88e5;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
+    .breadcrumb span {
+      color: #555;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    h2 {
+      color: #1e88e5;
+      margin-bottom: 20px;
+    }
+
+    .profesores {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .profesor {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .profesor:hover {
+      transform: scale(1.06);
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #bbdefb;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .profesor h3 {
+      margin: 10px 0 5px;
+      color: #1565c0;
+    }
+
+    .profesor p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .estrellas {
+      color: #fbc02d;
+      margin-top: 8px;
+      font-size: 1.1rem;
+    }
   </style>
-  
 </head>
+
 <body>
 
-  <p>
-    Inicio → Ciencia Política → Ideas Políticas
-  </p>
+  <!-- Header -->
+  <header>
+    <h1>GOBIPEDIA</h1>
+  </header>
 
-  <h1>Ideas Políticas</h1>
-  <p>Primer semestre</p>
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="index.html">Inicio</a> →
+    <a href="carrera.html">Ciencia Política</a> →
+    <span>Ideas Políticas (1° semestre)</span>
+  </nav>
 
-  <p>Docentes que han impartido el ramo:</p>
+  <!-- Contenido principal -->
+  <main>
+    <h2>Docentes — Ideas Políticas</h2>
 
-  <ul>
-    <li><a href="profesor.html">Claudia Heiss</a></li>
-    <li>Otro/a profesor/a</li>
-  </ul>
+    <div class="profesores">
+
+      <div class="profesor" onclick="location.href='profesor.html'">
+        <div class="avatar">🙂</div>
+        <h3>Claudia Heiss</h3>
+        <p>Profesora Asociada</p>
+        <div class="estrellas">★★★★☆</div>
+      </div>
+
+      <div class="profesor">
+        <div class="avatar">😐</div>
+        <h3>Profesor Ejemplo</h3>
+        <p>Profesor Invitado</p>
+        <div class="estrellas">★★★☆☆</div>
+      </div>
+
+    </div>
+  </main>
 
 </body>
 </html>
