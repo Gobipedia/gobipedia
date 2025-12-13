@@ -49,6 +49,17 @@
       padding: 40px;
     }
 
+    .breadcrumb {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .breadcrumb a {
+      color: #0b5ed7;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
     .ramos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -78,127 +89,164 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <h1>🐬 GOBIPEDIA</h1>
+<header>
+  <h1>🐬 GOBIPEDIA</h1>
+  <div id="userArea">
+    <a href="login.html">
+      <button>Ingresar a la comunidad</button>
+    </a>
+  </div>
+</header>
 
-    <!-- ÁREA USUARIO -->
-    <div id="userArea">
-      <a href="login.html">
-        <button>Ingresar a la comunidad</button>
-      </a>
-    </div>
-  </header>
+<main>
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="index.html">Inicio</a> &gt; <span>Carrera</span>
+  </div>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main>
+  <!-- Título dinámico -->
+  <h2 id="careerTitle">Carrera</h2>
 
-    <!-- BREADCRUMB -->
-    <p style="font-size:14px; color:#555;">
-      <a href="index.html">Inicio</a> →
-      <span id="breadcrumbCareer">Carrera</span>
-    </p>
+  <!-- Ramos -->
+  <div class="ramos" id="ramosContainer"></div>
+</main>
 
-    <!-- TÍTULO DINÁMICO -->
-    <h2 id="careerTitle"></h2>
+<script>
+  /* ================= SUPABASE ================= */
+  const supabase = window.supabase.createClient(
+    "https://vcoritivebetnnlksgei.supabase.co",
+    "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
+  );
 
-    <!-- RAMOS -->
-    <div class="ramos" id="ramosContainer"></div>
+  function updateUI(session) {
+    const userArea = document.getElementById("userArea");
+    if (!userArea) return;
 
-  </main>
-
-  <!-- SCRIPT SESIÓN -->
-  <script>
-    const supabase = window.supabase.createClient(
-      "https://vcoritivebetnnlksgei.supabase.co",
-      "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
-    );
-
-    function updateUI(session) {
-      const userArea = document.getElementById("userArea");
-      if (!userArea) return;
-
-      if (session) {
-        userArea.innerHTML = `
-          <div class="user-info">
-            <span>${session.user.email}</span>
-            <button onclick="logout()">Cerrar sesión</button>
-          </div>
-        `;
-      } else {
-        userArea.innerHTML = `
-          <a href="login.html">
-            <button>Ingresar a la comunidad</button>
-          </a>
-        `;
-      }
-    }
-
-    async function logout() {
-      await supabase.auth.signOut();
-      location.reload();
-    }
-
-    supabase.auth.getSession().then(({ data }) => {
-      updateUI(data.session);
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      updateUI(session);
-    });
-  </script>
-
-  <!-- SCRIPT LÓGICA DE CARRERA -->
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const carrera = params.get("carrera");
-
-    const careerTitle = document.getElementById("careerTitle");
-    const breadcrumbCareer = document.getElementById("breadcrumbCareer");
-    const ramosContainer = document.getElementById("ramosContainer");
-
-    const mallas = {
-      cp: {
-        nombre: "Ciencia Política",
-        ramos: [
-          { nombre: "Ideas Políticas", semestre: "Primer semestre", id: "ideas-politicas" },
-          { nombre: "Teoría Política", semestre: "Segundo semestre", id: "teoria-politica" },
-          { nombre: "Política Comparada", semestre: "Tercer semestre", id: "politica-comparada" }
-        ]
-      },
-      ap: {
-        nombre: "Administración Pública",
-        ramos: [
-          { nombre: "Introducción a la Administración Pública", semestre: "Primer semestre", id: "intro-ap" },
-          { nombre: "Gestión Pública", semestre: "Segundo semestre", id: "gestion-publica" }
-        ]
-      }
-    };
-
-    if (!mallas[carrera]) {
-      careerTitle.innerText = "Carrera no encontrada";
+    if (session) {
+      userArea.innerHTML = `
+        <div class="user-info">
+          <span>${session.user.email}</span>
+          <button onclick="logout()">Cerrar sesión</button>
+        </div>
+      `;
     } else {
-      const data = mallas[carrera];
-
-      careerTitle.innerText = `Malla – ${data.nombre}`;
-      breadcrumbCareer.innerText = data.nombre;
-
-      data.ramos.forEach(ramo => {
-        const card = document.createElement("div");
-        card.className = "ramo-card";
-        card.onclick = () => {
-          location.href = `ramo.html?ramo=${ramo.id}&carrera=${carrera}`;
-        };
-
-        card.innerHTML = `
-          <h3>${ramo.nombre}</h3>
-          <p>${ramo.semestre}</p>
-        `;
-
-        ramosContainer.appendChild(card);
-      });
+      userArea.innerHTML = `
+        <a href="login.html">
+          <button>Ingresar a la comunidad</button>
+        </a>
+      `;
     }
-  </script>
+  }
+
+  async function logout() {
+    await supabase.auth.signOut();
+    location.reload();
+  }
+
+  supabase.auth.getSession().then(({ data }) => {
+    updateUI(data.session);
+  });
+
+  supabase.auth.onAuthStateChange((_event, session) => {
+    updateUI(session);
+  });
+
+  /* ================= LÓGICA CARRERA ================= */
+  const params = new URLSearchParams(window.location.search);
+  const carrera = params.get("carrera");
+
+  const careerTitle = document.getElementById("careerTitle");
+  const ramosContainer = document.getElementById("ramosContainer");
+
+  const mallas = {
+    "ciencia-politica": {
+      nombre: "Ciencia Política",
+      ramos: [
+        // Primer año – 1° semestre
+        "Poder, Política y Gobierno",
+        "Ideas Políticas",
+        "Fundamentos del Sistema Político",
+        "Fundamentos del Estado y Gobierno",
+        "Lectura y Escritura Académica en Ciencia Política",
+        "Inglés I",
+
+        // Primer año – 2° semestre
+        "Evolución de las Instituciones I",
+        "Pensamiento Político Clásico",
+        "Política Comparada I",
+        "Epistemología de las Ciencias Sociales",
+        "Derecho Administrativo y Ciencia Política",
+        "Relaciones Internacionales",
+        "Inglés II",
+
+        // Segundo año – 3° semestre
+        "Evolución de las Instituciones II",
+        "Pensamiento Político Moderno",
+        "Política Comparada II",
+        "Metodología de la Investigación en Ciencia Política",
+        "Matemática I",
+        "Gobierno Subnacional",
+        "Inglés III",
+
+        // Segundo año – 4° semestre
+        "Instituciones Contemporáneas",
+        "Pensamiento Político Contemporáneo",
+        "Método Cualitativo",
+        "Desafíos de la Globalización",
+        "Matemática II",
+        "Inglés IV",
+
+        // Tercer año – 5° semestre
+        "Estado y Democracia: Ciudadanía Vertical",
+        "Fenómenos Microeconómicos",
+        "Sistema Político Chileno",
+        "Método Cuantitativo I",
+        "Organizaciones Internacionales",
+        "Marco Analítico de las Políticas Públicas",
+
+        // Tercer año – 6° semestre
+        "Negociación y Toma de Decisiones",
+        "Fenómenos Macroeconómicos",
+        "Formulación e Implementación de Políticas Públicas",
+        "Método Cuantitativo II",
+        "Política Latinoamericana",
+        "Pensamiento Político Latinoamericano",
+        "Política Exterior Latinoamericana",
+
+        // Cuarto año – 7° semestre
+        "Estado y Democracia: Ciudadanía Horizontal",
+        "Economía Política",
+        "Política de los Países Industrializados",
+        "Método Mixto",
+        "Evaluación de Políticas Públicas",
+
+        // Cuarto año – 8° semestre
+        "Comunicación Estratégica y Marketing Político",
+        "Simulación de Asesoría",
+        "Comportamiento Humano en la Organización",
+        "Análisis Empírico de Políticas Públicas",
+        "Seminario de Investigación"
+      ]
+    }
+  };
+
+  if (!mallas[carrera]) {
+    careerTitle.textContent = "Carrera no encontrada";
+  } else {
+    const data = mallas[carrera];
+    careerTitle.textContent = `Malla – ${data.nombre}`;
+
+    data.ramos.forEach(nombre => {
+      const card = document.createElement("div");
+      card.className = "ramo-card";
+      card.innerHTML = `<h3>${nombre}</h3>`;
+      card.onclick = () => {
+        location.href = `ramo.html?ramo=${encodeURIComponent(nombre)}`;
+      };
+      ramosContainer.appendChild(card);
+    });
+  }
+</script>
 
 </body>
 </html>
