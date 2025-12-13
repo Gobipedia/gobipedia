@@ -159,76 +159,134 @@
   const ramosContainer = document.getElementById("ramosContainer");
 
   const carreras = {
-    cp: {
-      nombre: "Ciencia Política",
-      ramos: [
-        // Primer año – 1° semestre
-        "Poder, Política y Gobierno",
-        "Ideas Políticas",
-        "Fundamentos del Sistema Político",
-        "Fundamentos del Estado y Gobierno",
-        "Lectura y Escritura Académica en Ciencia Política",
-        "Inglés I",
+  /* ================= CIENCIA POLÍTICA ================= */
+  cp: {
+    nombre: "Ciencia Política",
+    ramos: [
+      "Poder, Política y Gobierno",
+      "Ideas Políticas",
+      "Fundamentos del Sistema Político",
+      "Fundamentos del Estado y Gobierno",
+      "Lectura y Escritura Académica en Ciencia Política",
+      "Inglés I",
 
-        // Primer año – 2° semestre
-        "Evolución de las Instituciones I",
-        "Pensamiento Político Clásico",
-        "Política Comparada I",
-        "Epistemología de las Ciencias Sociales",
-        "Derecho Administrativo y Ciencia Política",
-        "Relaciones Internacionales",
-        "Inglés II",
+      "Evolución de las Instituciones I",
+      "Pensamiento Político Clásico",
+      "Política Comparada I",
+      "Epistemología de las Ciencias Sociales",
+      "Derecho Administrativo y Ciencia Política",
+      "Relaciones Internacionales",
+      "Inglés II",
 
-        // Segundo año – 3° semestre
-        "Evolución de las Instituciones II",
-        "Pensamiento Político Moderno",
-        "Política Comparada II",
-        "Metodología de la Investigación en Ciencia Política",
-        "Matemática I",
-        "Gobierno Subnacional",
-        "Inglés III",
+      "Evolución de las Instituciones II",
+      "Pensamiento Político Moderno",
+      "Política Comparada II",
+      "Metodología de la Investigación en Ciencia Política",
+      "Matemática I",
+      "Gobierno Subnacional",
+      "Inglés III",
 
-        // Segundo año – 4° semestre
-        "Instituciones Contemporáneas",
-        "Pensamiento Político Contemporáneo",
-        "Método Cualitativo",
-        "Desafíos de la Globalización",
-        "Matemática II",
-        "Inglés IV",
+      "Instituciones Contemporáneas",
+      "Pensamiento Político Contemporáneo",
+      "Método Cualitativo",
+      "Desafíos de la Globalización",
+      "Matemática II",
+      "Inglés IV",
 
-        // Tercer año – 5° semestre
-        "Estado y Democracia: Ciudadanía Vertical",
-        "Fenómenos Microeconómicos",
-        "Sistema Político Chileno",
-        "Método Cuantitativo I",
-        "Organizaciones Internacionales",
-        "Marco Analítico de las Políticas Públicas",
+      "Estado y Democracia: Ciudadanía Vertical",
+      "Fenómenos Microeconómicos",
+      "Sistema Político Chileno",
+      "Método Cuantitativo I",
+      "Organizaciones Internacionales",
+      "Marco Analítico de las Políticas Públicas",
 
-        // Tercer año – 6° semestre
-        "Negociación y Toma de Decisiones",
-        "Fenómenos Macroeconómicos",
-        "Formulación e Implementación de Políticas Públicas",
-        "Método Cuantitativo II",
-        "Política Latinoamericana",
-        "Pensamiento Político Latinoamericano",
-        "Política Exterior Latinoamericana",
+      "Negociación y Toma de Decisiones",
+      "Fenómenos Macroeconómicos",
+      "Formulación e Implementación de Políticas Públicas",
+      "Método Cuantitativo II",
+      "Política Latinoamericana",
+      "Pensamiento Político Latinoamericano",
+      "Política Exterior Latinoamericana",
 
-        // Cuarto año – 7° semestre
-        "Estado y Democracia: Ciudadanía Horizontal",
-        "Economía Política",
-        "Política de los Países Industrializados",
-        "Método Mixto",
-        "Evaluación de Políticas Públicas",
+      "Estado y Democracia: Ciudadanía Horizontal",
+      "Economía Política",
+      "Política de los Países Industrializados",
+      "Método Mixto",
+      "Evaluación de Políticas Públicas",
 
-        // Cuarto año – 8° semestre
-        "Comunicación Estratégica y Marketing Político",
-        "Simulación de Asesoría",
-        "Comportamiento Humano en la Organización",
-        "Análisis Empírico de Políticas Públicas",
-        "Seminario de Investigación"
-      ]
-    }
-  };
+      "Comunicación Estratégica y Marketing Político",
+      "Simulación de Asesoría",
+      "Comportamiento Humano en la Organización",
+      "Análisis Empírico de Políticas Públicas",
+      "Seminario de Investigación"
+    ]
+  },
+
+  /* ================= ADMINISTRACIÓN PÚBLICA ================= */
+  ap: {
+    nombre: "Administración Pública",
+    ramos: [
+      "Matemática para la Gestión I",
+      "Introducción a la Gestión Pública",
+      "Historia de las Instituciones Políticas y Administrativas de Chile",
+      "Tecnologías y Sistemas de Información",
+      "Bases Jurídicas para la Administración del Estado",
+      "Inglés I",
+
+      "Matemática para la Gestión II",
+      "Evolución y Complejidad de la Administración Pública",
+      "Ideas y Debates Políticos Contemporáneos",
+      "Epistemología de las Ciencias Sociales",
+      "Marco Normativo para la Acción Administrativa I",
+      "Inglés II",
+
+      "Estadística para la Gestión I",
+      "Dinámicas de la Administración Pública Chilena",
+      "Estudio de los Fenómenos Políticos",
+      "Metodología de la Investigación en Administración Pública",
+      "Marco Normativo para la Acción Administrativa II",
+      "Inglés III",
+
+      "Estadística para la Gestión II",
+      "Diseño Organizacional",
+      "La Administración Pública y los Fenómenos Políticos",
+      "Métodos Cualitativos para la Administración Pública",
+      "Inglés IV",
+      "Comportamiento Humano en la Organización",
+
+      "Fenómenos Microeconómicos",
+      "Gestión de Procesos en Organizaciones Públicas",
+      "Análisis Político Internacional",
+      "Métodos Cuantitativos para la Administración Pública",
+      "Bases Contables para la Gestión Pública",
+      "Marco Analítico de las Políticas Públicas",
+
+      "Fenómenos Macroeconómicos",
+      "Planificación Estratégica en Organizaciones Públicas",
+      "Negociación y Toma de Decisiones",
+      "Gestión Territorial y Descentralización",
+      "Gestión Financiera y Presupuestaria del Estado",
+      "Formulación e Implementación de Políticas Públicas",
+      "Gestión de Personas en Organizaciones Públicas",
+
+      "Economía del Sector Público",
+      "Control y Evaluación en Organizaciones Públicas",
+      "Análisis Integrado de los Problemas Públicos",
+      "Contabilidad Gubernamental",
+      "Evaluación de Políticas Públicas",
+  
+      "Gestión de Proyectos Sociales",
+      "Simulación de Asesoría",
+      "Comunicación Estratégica y Marketing Político",
+      "Seminario de Investigación Aplicada",
+      "Auditoría Gubernamental",
+      "Análisis Empírico de Política Pública",
+
+      "Evaluación de Proyectos Sociales",
+      "Dirección y Ética Pública"
+    ]
+  }
+};
 
   const data = carreras[carrera];
 
