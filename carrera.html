@@ -2,68 +2,130 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Carrera | GOBIPEDIA</title>
+  <title>GOBIPEDIA | Carrera</title>
 
-   <style>
-   body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(180deg, #e3f2fd, #ffffff);
-  min-height: 100vh;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #e3f2fd, #ffffff);
+      min-height: 100vh;
+    }
 
-header {
-  background: #1e88e5;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
+    header {
+      background: #1e88e5;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-}
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
 
-main {
-  padding: 40px;
-  text-align: center;
-}
+    .breadcrumb {
+      background: #f1f8ff;
+      padding: 12px 30px;
+      font-size: 0.95rem;
+    }
 
-a {
-  color: #1e88e5;
-  font-weight: bold;
-  text-decoration: none;
-}
+    .breadcrumb a {
+      color: #1e88e5;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-a:hover {
-  text-decoration: underline;
-}
+    .breadcrumb span {
+      color: #555;
+      font-weight: bold;
+    }
 
+    main {
+      padding: 40px;
+    }
+
+    h2 {
+      color: #1e88e5;
+      margin-bottom: 20px;
+    }
+
+    .malla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .ramo {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-align: center;
+    }
+
+    .ramo:hover {
+      transform: scale(1.05);
+    }
+
+    .ramo h3 {
+      margin: 0;
+      color: #1565c0;
+    }
+
+    .ramo p {
+      color: #555;
+      font-size: 0.9rem;
+    }
   </style>
-  
 </head>
+
 <body>
-  
- <header>
-  <h1>🐬 GOBIPEDIA</h1>
-  <span>Facultad de Gobierno · U. de Chile</span>
- </header>
-  
-  <p>
-    Inicio → Ciencia Política
-  </p>
 
-  <h1>Ciencia Política</h1>
+  <!-- Header -->
+  <header>
+    <h1>GOBIPEDIA</h1>
+  </header>
 
-  <p>Selecciona un ramo:</p>
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a href="index.html">Inicio</a> →
+    <span>Ciencia Política</span>
+  </nav>
 
-  <ul>
-    <li><a href="ramo.html">Ideas Políticas</a></li>
-    <li>Teoría Política</li>
-    <li>Política Comparada</li>
-  </ul>
+  <!-- Contenido principal -->
+  <main>
+    <h2>Malla — Ciencia Política</h2>
+
+    <div class="malla">
+
+      <div class="ramo" onclick="location.href='ramo.html'">
+        <h3>Ideas Políticas</h3>
+        <p>1° semestre</p>
+      </div>
+
+      <div class="ramo">
+        <h3>Introducción a la Ciencia Política</h3>
+        <p>1° semestre</p>
+      </div>
+
+      <div class="ramo">
+        <h3>Instituciones Políticas</h3>
+        <p>2° semestre</p>
+      </div>
+
+      <div class="ramo">
+        <h3>Métodos de Investigación</h3>
+        <p>2° semestre</p>
+      </div>
+
+    </div>
+  </main>
 
 </body>
 </html>
+
