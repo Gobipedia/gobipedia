@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>GOBIPEDIA — Inicio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>GOBIPEDIA | Facultad de Gobierno</title>
 
-  <!-- Librería oficial Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
   <style>
-    /* =========================
-       ESTILOS GENERALES
-    ========================== */
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background-color: #f5f6fa;
-      color: #222;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(180deg, #e6f4ff, #ffffff);
     }
 
-    /* =========================
-       HEADER
-    ========================== */
     header {
-      background-color: #1f2a44;
+      background-color: #0b5ed7;
       color: white;
-      padding: 15px 25px;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -33,180 +25,114 @@
 
     header h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 24px;
     }
 
-    #userArea {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    button {
-      padding: 8px 14px;
+    header button {
+      background: white;
+      color: #0b5ed7;
       border: none;
-      border-radius: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
+      font-weight: bold;
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
-    /* =========================
-       CONTENIDO PRINCIPAL
-    ========================== */
     main {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
+      padding: 40px;
+      text-align: center;
     }
 
-    h2 {
-      margin-bottom: 10px;
-    }
-
-    .descripcion {
-      margin-bottom: 30px;
-      color: #555;
-    }
-
-    /* =========================
-       TARJETAS DE CARRERAS
-    ========================== */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+    .carreras {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+      flex-wrap: wrap;
     }
 
     .card {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      width: 260px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: transform 0.2s;
     }
 
     .card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-5px);
     }
 
-    .card h3 {
-      margin-top: 0;
+    .card h2 {
+      color: #0b5ed7;
     }
 
-    .card p {
+    .descripcion {
       color: #555;
       font-size: 14px;
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 13px;
-      color: #777;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+  <!-- HEADER -->
   <header>
     <h1>🐬 GOBIPEDIA</h1>
-    <div id="userArea">
-      <!-- Se completa dinámicamente -->
-    </div>
+
+    <!-- BOTÓN LOGIN (solo si NO hay sesión) -->
+    <a href="login.html" id="loginLink">
+      <button>Ingresar a la comunidad</button>
+    </a>
   </header>
 
-  <!-- =========================
-       CONTENIDO
-  ========================== -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main>
-    <h2>Bandeja de entrada</h2>
+    <h2>Facultad de Gobierno – Universidad de Chile</h2>
     <p class="descripcion">
-      Plataforma colaborativa para evaluar la experiencia docente y compartir apuntes
-      en la Facultad de Gobierno — Universidad de Chile.
+      Plataforma colaborativa para compartir experiencias, evaluar docentes
+      y acceder a apuntes por carrera y ramo.
     </p>
 
-    <div class="grid">
-      <!-- CARRERA 1 -->
-      <div class="card" onclick="location.href='carrera.html'">
-        <h3>Ciencia Política</h3>
-        <p>
-          Malla completa, evaluación de docentes y experiencias por ramo.
+    <div class="carreras">
+      <div class="card" onclick="location.href='carrera.html?carrera=ap'">
+        <h2>Administración Pública</h2>
+        <p class="descripcion">
+          Malla, ramos y docentes de la carrera de Administración Pública.
         </p>
       </div>
 
-      <!-- (FUTURO) OTRA CARRERA -->
-      <div class="card">
-        <h3>Administración Pública</h3>
-        <p>
-          Próximamente disponible.
+      <div class="card" onclick="location.href='carrera.html?carrera=cp'">
+        <h2>Ciencia Política</h2>
+        <p class="descripcion">
+          Malla, ramos y docentes de la carrera de Ciencia Política.
         </p>
       </div>
     </div>
   </main>
 
-  <!-- =========================
-       FOOTER
-  ========================== -->
-  <footer>
-    Proyecto estudiantil — Uso académico — Universidad de Chile
-  </footer>
-
-  <!-- =========================
-       SCRIPT SUPABASE + SESIÓN
-  ========================== -->
+  <!-- SCRIPT DE SESIÓN -->
   <script>
-    /* 1. Inicializar Supabase */
     const supabase = window.supabase.createClient(
       "https://vcoritivebetnnlksgei.supabase.co",
       "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
     );
 
-    /* 2. Render dinámico del área de usuario */
-    async function renderUserArea() {
+    async function checkSession() {
       const {
         data: { session }
       } = await supabase.auth.getSession();
 
-      const userArea = document.getElementById("userArea");
-
-      if (!userArea) return;
-
       if (session) {
-        // Usuario logueado
-        userArea.innerHTML = `
-          <span>${session.user.email}</span>
-          <button onclick="logout()">Cerrar sesión</button>
-        `;
-      } else {
-        // Usuario NO logueado
-        userArea.innerHTML = `
-          <a href="login.html">
-            <button>Ingresar a la comunidad</button>
-          </a>
-        `;
+        // Si hay sesión, ocultar botón de login
+        const loginLink = document.getElementById("loginLink");
+        if (loginLink) loginLink.style.display = "none";
       }
     }
 
-    /* 3. Logout */
-    async function logout() {
-      await supabase.auth.signOut();
-      window.location.href = "index.html";
-    }
-
-    /* 4. Ejecutar al cargar la página */
-    renderUserArea();
+    checkSession();
   </script>
 
 </body>
