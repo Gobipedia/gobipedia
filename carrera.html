@@ -82,7 +82,7 @@
   <header>
     <h1>🐬 GOBIPEDIA</h1>
 
-    <!-- ÁREA DINÁMICA DE USUARIO -->
+    <!-- ÁREA USUARIO -->
     <div id="userArea">
       <a href="login.html">
         <button>Ingresar a la comunidad</button>
@@ -92,33 +92,30 @@
 
   <!-- CONTENIDO PRINCIPAL -->
   <main>
-    <h2 id="careerTitle">Carrera</h2>
 
-    <div class="ramos">
-      <div class="ramo-card" onclick="location.href='ramo.html?ramo=ideas-politicas'">
-        <h3>Ideas Políticas</h3>
-        <p>Primer semestre</p>
-      </div>
+    <!-- BREADCRUMB -->
+    <p style="font-size:14px; color:#555;">
+      <a href="index.html">Inicio</a> →
+      <span id="breadcrumbCareer">Carrera</span>
+    </p>
 
-      <div class="ramo-card" onclick="location.href='ramo.html?ramo=teoria-politica'">
-        <h3>Teoría Política</h3>
-        <p>Segundo semestre</p>
-      </div>
-    </div>
+    <!-- TÍTULO DINÁMICO -->
+    <h2 id="careerTitle"></h2>
+
+    <!-- RAMOS -->
+    <div class="ramos" id="ramosContainer"></div>
+
   </main>
 
-  <!-- SCRIPT SESIÓN (MISMO QUE INDEX) -->
+  <!-- SCRIPT SESIÓN -->
   <script>
-    /* Inicializar Supabase */
     const supabase = window.supabase.createClient(
       "https://vcoritivebetnnlksgei.supabase.co",
       "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
     );
 
-    /* Actualizar UI según sesión */
     function updateUI(session) {
       const userArea = document.getElementById("userArea");
-
       if (!userArea) return;
 
       if (session) {
@@ -137,20 +134,70 @@
       }
     }
 
-    /* Logout */
     async function logout() {
       await supabase.auth.signOut();
+      location.reload();
     }
 
-    /* Estado inicial */
     supabase.auth.getSession().then(({ data }) => {
       updateUI(data.session);
     });
 
-    /* Escuchar cambios */
     supabase.auth.onAuthStateChange((_event, session) => {
       updateUI(session);
     });
+  </script>
+
+  <!-- SCRIPT LÓGICA DE CARRERA -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const carrera = params.get("carrera");
+
+    const careerTitle = document.getElementById("careerTitle");
+    const breadcrumbCareer = document.getElementById("breadcrumbCareer");
+    const ramosContainer = document.getElementById("ramosContainer");
+
+    const mallas = {
+      cp: {
+        nombre: "Ciencia Política",
+        ramos: [
+          { nombre: "Ideas Políticas", semestre: "Primer semestre", id: "ideas-politicas" },
+          { nombre: "Teoría Política", semestre: "Segundo semestre", id: "teoria-politica" },
+          { nombre: "Política Comparada", semestre: "Tercer semestre", id: "politica-comparada" }
+        ]
+      },
+      ap: {
+        nombre: "Administración Pública",
+        ramos: [
+          { nombre: "Introducción a la Administración Pública", semestre: "Primer semestre", id: "intro-ap" },
+          { nombre: "Gestión Pública", semestre: "Segundo semestre", id: "gestion-publica" }
+        ]
+      }
+    };
+
+    if (!mallas[carrera]) {
+      careerTitle.innerText = "Carrera no encontrada";
+    } else {
+      const data = mallas[carrera];
+
+      careerTitle.innerText = `Malla – ${data.nombre}`;
+      breadcrumbCareer.innerText = data.nombre;
+
+      data.ramos.forEach(ramo => {
+        const card = document.createElement("div");
+        card.className = "ramo-card";
+        card.onclick = () => {
+          location.href = `ramo.html?ramo=${ramo.id}&carrera=${carrera}`;
+        };
+
+        card.innerHTML = `
+          <h3>${ramo.nombre}</h3>
+          <p>${ramo.semestre}</p>
+        `;
+
+        ramosContainer.appendChild(card);
+      });
+    }
   </script>
 
 </body>
