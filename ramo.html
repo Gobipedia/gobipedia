@@ -138,34 +138,36 @@
 
 <script>
   const params = new URLSearchParams(window.location.search);
-  const ramo = params.get("ramo");
+  const ramoRaw = params.get("ramo");
+
+  // Normalizamos el texto recibido
+  const ramoKey = ramoRaw
+    ?.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
 
   const ramos = {
-    "Ideas Políticas": {
+    "ideas politicas": {
+      nombre: "Ideas Políticas",
       descripcion: "Introducción al estudio de las ideas políticas y su influencia en la organización del poder.",
       objetivos: "Comprender los conceptos políticos fundamentales y su desarrollo histórico.",
       contenidos: "Poder, legitimidad, ideología, Estado.",
       bibliografia: "Bobbio, Norberto. Estado, gobierno y sociedad.",
       continuidad: "Teoría Política",
       profesores: [
-        {
-          nombre: "Claudia Heiss",
-          rating: 4.6
-        },
-        {
-          nombre: "Sergio Micco",
-          rating: 4.3
-        }
+        { nombre: "Claudia Heiss", rating: 4.6 },
+        { nombre: "Sergio Micco", rating: 4.3 }
       ]
     }
   };
 
-  const ramoData = ramos[ramo];
+  const ramoData = ramos[ramoKey];
 
   if (!ramoData) {
     document.getElementById("ramoNombre").textContent = "Ramo no encontrado";
   } else {
-    document.getElementById("ramoNombre").textContent = ramo;
+    document.getElementById("ramoNombre").textContent = ramoData.nombre;
     document.getElementById("ramoDescripcion").textContent = ramoData.descripcion;
     document.getElementById("ramoObjetivos").textContent = ramoData.objetivos;
     document.getElementById("ramoContenidos").textContent = ramoData.contenidos;
