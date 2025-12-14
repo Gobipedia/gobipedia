@@ -15,9 +15,6 @@
       background-color: #0b5ed7;
       color: white;
       padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     header h1 {
@@ -28,34 +25,82 @@
 
     main {
       padding: 40px;
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
     }
 
-    h2 {
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      font-weight: bold;
       color: #0b5ed7;
-      margin-bottom: 10px;
+      text-decoration: none;
     }
 
-    .panel {
+    /* ===== BANNER RAMO ===== */
+    .ramo-banner {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      margin-bottom: 40px;
+    }
+
+    .ramo-banner h2 {
+      color: #0b5ed7;
+      margin-top: 0;
+    }
+
+    .ramo-banner h3 {
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .ramo-banner p {
+      margin-top: 0;
+      color: #555;
+    }
+
+    /* ===== PROFESORES ===== */
+    .profesores {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .prof-card {
       background: white;
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-      margin-bottom: 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
 
-    .panel h3 {
-      margin-top: 0;
+    .prof-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .prof-card .emoji {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .prof-card h4 {
+      margin: 10px 0 5px;
       color: #0b5ed7;
     }
 
-    .back {
-      margin-bottom: 20px;
-      display: inline-block;
-      color: #0b5ed7;
-      text-decoration: none;
+    .prof-card p {
+      margin: 4px 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .rating {
       font-weight: bold;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -69,76 +114,79 @@
 <main>
   <a class="back" href="javascript:history.back()">← Volver</a>
 
-  <h2 id="ramoTitle">Ramo</h2>
+  <!-- BANNER DEL RAMO -->
+  <div class="ramo-banner">
+    <h2 id="ramoNombre"></h2>
 
-  <div class="panel">
     <h3>Descripción</h3>
-    <p id="descripcion"></p>
-  </div>
+    <p id="ramoDescripcion"></p>
 
-  <div class="panel">
     <h3>Objetivos</h3>
-    <p id="objetivos"></p>
-  </div>
+    <p id="ramoObjetivos"></p>
 
-  <div class="panel">
     <h3>Contenidos</h3>
-    <p id="contenidos"></p>
+    <p id="ramoContenidos"></p>
+
+    <h3>Bibliografía básica</h3>
+    <p id="ramoBibliografia"></p>
   </div>
 
-  <div class="panel">
-    <h3>Bibliografía básica</h3>
-    <p id="bibliografia"></p>
-  </div>
+  <!-- PROFESORES -->
+  <h3>Profesores que imparten el ramo</h3>
+  <div class="profesores" id="profesoresContainer"></div>
 </main>
 
 <script>
-  /* ================= LÓGICA DEL RAMO ================= */
-
   const params = new URLSearchParams(window.location.search);
   const ramo = params.get("ramo");
 
-  const ramoTitle = document.getElementById("ramoTitle");
-  const descripcion = document.getElementById("descripcion");
-  const objetivos = document.getElementById("objetivos");
-  const contenidos = document.getElementById("contenidos");
-  const bibliografia = document.getElementById("bibliografia");
-
   const ramos = {
     "Ideas Políticas": {
-      descripcion: "Introducción al estudio de las ideas políticas fundamentales y su impacto en la organización del poder.",
-      objetivos: "Comprender los principales conceptos políticos y su evolución histórica.",
-      contenidos: "Poder, legitimidad, autoridad, ideología, Estado.",
-      bibliografia: "Bobbio, Norberto. Estado, gobierno y sociedad."
-    },
-
-    "Pensamiento Político Moderno": {
-      descripcion: "Análisis del pensamiento político desde la modernidad hasta el siglo XIX.",
-      objetivos: "Examinar los principales autores y corrientes del pensamiento político moderno.",
-      contenidos: "Hobbes, Locke, Rousseau, Kant, Hegel.",
-      bibliografia: "Rousseau, El contrato social; Hobbes, Leviatán."
-    },
-
-    "Gobierno Subnacional": {
-      descripcion: "Estudio de la descentralización, gobiernos locales y regionales.",
-      objetivos: "Analizar estructuras subnacionales y su impacto en la gobernanza.",
-      contenidos: "Descentralización, gobiernos regionales, municipalidades.",
-      bibliografia: "Falleti, T. Descentralización y política."
+      descripcion: "Introducción al estudio de las ideas políticas y su influencia en la organización del poder.",
+      objetivos: "Comprender los conceptos políticos fundamentales y su desarrollo histórico.",
+      contenidos: "Poder, legitimidad, ideología, Estado.",
+      bibliografia: "Bobbio, Norberto. Estado, gobierno y sociedad.",
+      continuidad: "Teoría Política",
+      profesores: [
+        {
+          nombre: "Claudia Heiss",
+          rating: 4.6
+        },
+        {
+          nombre: "Sergio Micco",
+          rating: 4.3
+        }
+      ]
     }
   };
 
-  if (!ramo || !ramos[ramo]) {
-    ramoTitle.textContent = "Ramo no encontrado";
-    descripcion.textContent = "Este ramo aún no tiene contenido cargado.";
-    objetivos.textContent = "-";
-    contenidos.textContent = "-";
-    bibliografia.textContent = "-";
+  const ramoData = ramos[ramo];
+
+  if (!ramoData) {
+    document.getElementById("ramoNombre").textContent = "Ramo no encontrado";
   } else {
-    ramoTitle.textContent = ramo;
-    descripcion.textContent = ramos[ramo].descripcion;
-    objetivos.textContent = ramos[ramo].objetivos;
-    contenidos.textContent = ramos[ramo].contenidos;
-    bibliografia.textContent = ramos[ramo].bibliografia;
+    document.getElementById("ramoNombre").textContent = ramo;
+    document.getElementById("ramoDescripcion").textContent = ramoData.descripcion;
+    document.getElementById("ramoObjetivos").textContent = ramoData.objetivos;
+    document.getElementById("ramoContenidos").textContent = ramoData.contenidos;
+    document.getElementById("ramoBibliografia").textContent = ramoData.bibliografia;
+
+    const container = document.getElementById("profesoresContainer");
+
+    ramoData.profesores.forEach(prof => {
+      const card = document.createElement("div");
+      card.className = "prof-card";
+      card.innerHTML = `
+        <div class="emoji">👩‍🏫</div>
+        <h4>${prof.nombre}</h4>
+        <p>Continuidad: ${ramoData.continuidad}</p>
+        <p class="rating">⭐ ${prof.rating}</p>
+      `;
+      card.onclick = () => {
+        location.href = \`profesor.html?profe=\${encodeURIComponent(prof.nombre)}\`;
+      };
+      container.appendChild(card);
+    });
   }
 </script>
 
