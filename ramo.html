@@ -114,33 +114,37 @@
 <main>
   <a class="back" href="javascript:history.back()">← Volver</a>
 
-  <!-- BANNER DEL RAMO -->
-  <div class="ramo-banner">
-    <h2 id="ramoNombre"></h2>
+  <!-- CONTENIDO DINÁMICO -->
+  <div id="ramoContent">
 
-    <h3>Descripción</h3>
-    <p id="ramoDescripcion"></p>
+    <!-- BANNER DEL RAMO -->
+    <div class="ramo-banner">
+      <h2 id="ramoNombre"></h2>
 
-    <h3>Objetivos</h3>
-    <p id="ramoObjetivos"></p>
+      <h3>Descripción</h3>
+      <p id="ramoDescripcion"></p>
 
-    <h3>Contenidos</h3>
-    <p id="ramoContenidos"></p>
+      <h3>Objetivos</h3>
+      <p id="ramoObjetivos"></p>
 
-    <h3>Bibliografía básica</h3>
-    <p id="ramoBibliografia"></p>
+      <h3>Contenidos</h3>
+      <p id="ramoContenidos"></p>
+
+      <h3>Bibliografía básica</h3>
+      <p id="ramoBibliografia"></p>
+    </div>
+
+    <!-- PROFESORES -->
+    <h3>Profesores que imparten el ramo</h3>
+    <div class="profesores" id="profesoresContainer"></div>
+
   </div>
-
-  <!-- PROFESORES -->
-  <h3>Profesores que imparten el ramo</h3>
-  <div class="profesores" id="profesoresContainer"></div>
 </main>
 
 <script>
   const params = new URLSearchParams(window.location.search);
   const ramoRaw = params.get("ramo");
 
-  // Normalizamos el texto recibido
   const ramoKey = ramoRaw
     ?.toLowerCase()
     .normalize("NFD")
@@ -163,9 +167,10 @@
   };
 
   const ramoData = ramos[ramoKey];
+  const content = document.getElementById("ramoContent");
 
   if (!ramoData) {
-    document.getElementById("ramoNombre").textContent = "Ramo no encontrado";
+    content.innerHTML = "<h2>Ramo no encontrado</h2>";
   } else {
     document.getElementById("ramoNombre").textContent = ramoData.nombre;
     document.getElementById("ramoDescripcion").textContent = ramoData.descripcion;
