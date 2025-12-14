@@ -37,7 +37,6 @@
       text-decoration: none;
     }
 
-    /* ===== BANNER RAMO ===== */
     .ramo-banner {
       background: white;
       padding: 30px;
@@ -61,7 +60,6 @@
       color: #555;
     }
 
-    /* ===== PROFESORES ===== */
     .profesores {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -82,20 +80,9 @@
       transform: translateY(-6px);
     }
 
-    .prof-card .emoji {
+    .emoji {
       font-size: 48px;
       margin-bottom: 10px;
-    }
-
-    .prof-card h4 {
-      margin: 10px 0 5px;
-      color: #0b5ed7;
-    }
-
-    .prof-card p {
-      margin: 4px 0;
-      color: #555;
-      font-size: 14px;
     }
 
     .rating {
@@ -114,34 +101,29 @@
 <main>
   <a class="back" href="javascript:history.back()">← Volver</a>
 
-  <!-- CONTENIDO DINÁMICO -->
-  <div id="ramoContent">
+  <div class="ramo-banner">
+    <h2 id="ramoNombre"></h2>
 
-    <!-- BANNER DEL RAMO -->
-    <div class="ramo-banner">
-      <h2 id="ramoNombre"></h2>
+    <h3>Descripción</h3>
+    <p id="ramoDescripcion"></p>
 
-      <h3>Descripción</h3>
-      <p id="ramoDescripcion"></p>
+    <h3>Objetivos</h3>
+    <p id="ramoObjetivos"></p>
 
-      <h3>Objetivos</h3>
-      <p id="ramoObjetivos"></p>
+    <h3>Contenidos</h3>
+    <p id="ramoContenidos"></p>
 
-      <h3>Contenidos</h3>
-      <p id="ramoContenidos"></p>
-
-      <h3>Bibliografía básica</h3>
-      <p id="ramoBibliografia"></p>
-    </div>
-
-    <!-- PROFESORES -->
-    <h3>Profesores que imparten el ramo</h3>
-    <div class="profesores" id="profesoresContainer"></div>
-
+    <h3>Bibliografía básica</h3>
+    <p id="ramoBibliografia"></p>
   </div>
+
+  <h3>Profesores que imparten el ramo</h3>
+  <div class="profesores" id="profesoresContainer"></div>
 </main>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+
   const params = new URLSearchParams(window.location.search);
   const ramoRaw = params.get("ramo");
 
@@ -167,34 +149,36 @@
   };
 
   const ramoData = ramos[ramoKey];
-  const content = document.getElementById("ramoContent");
 
   if (!ramoData) {
-    content.innerHTML = "<h2>Ramo no encontrado</h2>";
-  } else {
-    document.getElementById("ramoNombre").textContent = ramoData.nombre;
-    document.getElementById("ramoDescripcion").textContent = ramoData.descripcion;
-    document.getElementById("ramoObjetivos").textContent = ramoData.objetivos;
-    document.getElementById("ramoContenidos").textContent = ramoData.contenidos;
-    document.getElementById("ramoBibliografia").textContent = ramoData.bibliografia;
-
-    const container = document.getElementById("profesoresContainer");
-
-    ramoData.profesores.forEach(prof => {
-      const card = document.createElement("div");
-      card.className = "prof-card";
-      card.innerHTML = `
-        <div class="emoji">👩‍🏫</div>
-        <h4>${prof.nombre}</h4>
-        <p>Continuidad: ${ramoData.continuidad}</p>
-        <p class="rating">⭐ ${prof.rating}</p>
-      `;
-      card.onclick = () => {
-        location.href = \`profesor.html?profe=\${encodeURIComponent(prof.nombre)}\`;
-      };
-      container.appendChild(card);
-    });
+    document.getElementById("ramoNombre").textContent = "Ramo no encontrado";
+    return;
   }
+
+  document.getElementById("ramoNombre").textContent = ramoData.nombre;
+  document.getElementById("ramoDescripcion").textContent = ramoData.descripcion;
+  document.getElementById("ramoObjetivos").textContent = ramoData.objetivos;
+  document.getElementById("ramoContenidos").textContent = ramoData.contenidos;
+  document.getElementById("ramoBibliografia").textContent = ramoData.bibliografia;
+
+  const container = document.getElementById("profesoresContainer");
+
+  ramoData.profesores.forEach(prof => {
+    const card = document.createElement("div");
+    card.className = "prof-card";
+    card.innerHTML = `
+      <div class="emoji">👩‍🏫</div>
+      <h4>${prof.nombre}</h4>
+      <p>Continuidad: ${ramoData.continuidad}</p>
+      <p class="rating">⭐ ${prof.rating}</p>
+    `;
+    card.onclick = () => {
+      location.href = `profesor.html?profe=${encodeURIComponent(prof.nombre)}`;
+    };
+    container.appendChild(card);
+  });
+
+});
 </script>
 
 </body>
