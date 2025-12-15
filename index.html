@@ -80,21 +80,24 @@
       color: #555;
       font-size: 14px;
     }
-    /* ===== LOGO GOBIPEDIA ===== */
+/* ===== LOGO GOBIPEDIA (VERSIÓN GRANDE) ===== */
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   cursor: pointer;
 }
 
+/* Mascota más grande para ocupar toda la altura del header */
 .logo img {
-  height: 46px;
+  height: 60px;      /* aumenta esto si quieres aún más grande */
   width: auto;
+  object-fit: contain;
 }
 
+/* Texto también más grande para equilibrar */
 .logo span {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
   color: white;
 }
