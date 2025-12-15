@@ -11,18 +11,40 @@
       background: linear-gradient(180deg, #e6f4ff, #ffffff);
     }
 
+    /* ===== HEADER FIJO (IGUAL AL INDEX) ===== */
     header {
       background-color: #0b5ed7;
       color: white;
-      padding: 20px;
+      height: 80px;                 /* ALTURA FIJA */
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
+    /* ===== LOGO GOBIPEDIA (IGUAL AL INDEX) ===== */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
       cursor: pointer;
+      height: 100%;
     }
 
+    .logo img {
+      height: 100%;                 /* toca borde superior e inferior */
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo span {
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      line-height: 1;
+    }
+
+    /* ===== MAIN ===== */
     main {
       padding: 40px;
       max-width: 1000px;
@@ -94,8 +116,12 @@
 
 <body>
 
+<!-- ===== HEADER (IGUAL AL INDEX / CARRERA) ===== -->
 <header>
-  <h1 onclick="history.back()">🐬 GOBIPEDIA</h1>
+  <div class="logo" onclick="location.href='index.html'">
+    <img src="mascot.png" alt="Mascota Gobipedia">
+    <span>GOBIPEDIA</span>
+  </div>
 </header>
 
 <main>
@@ -173,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <p class="rating">⭐ ${prof.rating}</p>
     `;
     card.onclick = () => {
-      location.href = `profesor.html?profe=${encodeURIComponent(prof.nombre)}`;
+      location.href = \`profesor.html?profe=\${encodeURIComponent(prof.nombre)}\`;
     };
     container.appendChild(card);
   });
