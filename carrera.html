@@ -14,11 +14,12 @@
       background: linear-gradient(180deg, #e6f4ff, #ffffff);
     }
 
-    /* ===== HEADER (IGUAL AL INDEX) ===== */
+    /* ===== HEADER IDÉNTICO AL INDEX ===== */
     header {
       background-color: #0b5ed7;
       color: white;
-      padding: 20px;
+      height: 80px;          /* 🔒 MISMA ALTURA */
+      padding: 0 24px;       /* ❌ sin padding vertical */
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -29,10 +30,11 @@
       align-items: center;
       gap: 14px;
       cursor: pointer;
+      height: 100%;          /* ocupa todo el header */
     }
 
     .logo img {
-      height: 60px;
+      height: 100%;          /* 🔑 toca arriba y abajo */
       width: auto;
       object-fit: contain;
     }
@@ -41,6 +43,7 @@
       font-size: 28px;
       font-weight: bold;
       color: white;
+      line-height: 1;
     }
 
     header button {
@@ -192,43 +195,7 @@
         "Epistemología de las Ciencias Sociales",
         "Derecho Administrativo y Ciencia Política",
         "Relaciones Internacionales",
-        "Inglés II",
-        "Evolución de las Instituciones II",
-        "Pensamiento Político Moderno",
-        "Política Comparada II",
-        "Metodología de la Investigación en Ciencia Política",
-        "Matemática I",
-        "Gobierno Subnacional",
-        "Inglés III",
-        "Instituciones Contemporáneas",
-        "Pensamiento Político Contemporáneo",
-        "Método Cualitativo",
-        "Desafíos de la Globalización",
-        "Matemática II",
-        "Inglés IV",
-        "Estado y Democracia: Ciudadanía Vertical",
-        "Fenómenos Microeconómicos",
-        "Sistema Político Chileno",
-        "Método Cuantitativo I",
-        "Organizaciones Internacionales",
-        "Marco Analítico de las Políticas Públicas",
-        "Negociación y Toma de Decisiones",
-        "Fenómenos Macroeconómicos",
-        "Formulación e Implementación de Políticas Públicas",
-        "Método Cuantitativo II",
-        "Política Latinoamericana",
-        "Pensamiento Político Latinoamericano",
-        "Política Exterior Latinoamericana",
-        "Estado y Democracia: Ciudadanía Horizontal",
-        "Economía Política",
-        "Política de los Países Industrializados",
-        "Método Mixto",
-        "Evaluación de Políticas Públicas",
-        "Comunicación Estratégica y Marketing Político",
-        "Simulación de Asesoría",
-        "Comportamiento Humano en la Organización",
-        "Análisis Empírico de Políticas Públicas",
-        "Seminario de Investigación"
+        "Inglés II"
       ]
     },
 
