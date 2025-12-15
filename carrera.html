@@ -15,7 +15,6 @@
     }
 
     /* ================= HEADER ================= */
-
     header {
       background-color: #0b5ed7;
       color: white;
@@ -23,23 +22,29 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative; /* CLAVE: permite logo grande sin crecer panel */
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 14px;
     }
 
+    /* LOGO GRANDE (NO EMPUJA EL HEADER) */
     .header-logo {
-      height: 72px;       /* SOLO cambia el tamaño del logo */
+      height: 110px;          /* tamaño grande del logo */
       width: auto;
-      display: block;
+      position: absolute;    /* lo saca del flujo */
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
     }
 
-    header h1 {
+    .header-left h1 {
       margin: 0;
+      margin-left: 120px;    /* espacio para que no choque con la mascota */
       font-size: 24px;
+      cursor: pointer;
     }
 
     header button {
@@ -60,7 +65,6 @@
     }
 
     /* ================= MAIN ================= */
-
     main {
       padding: 40px;
     }
@@ -105,10 +109,11 @@
 
 <body>
 
+<!-- ================= HEADER ================= -->
 <header>
   <div class="header-left">
     <img src="mascot.png" alt="Mascota Gobipedia" class="header-logo">
-    <h1>GOBIPEDIA</h1>
+    <h1 onclick="location.href='index.html'">GOBIPEDIA</h1>
   </div>
 
   <div id="userArea">
@@ -118,21 +123,20 @@
   </div>
 </header>
 
+<!-- ================= CONTENIDO ================= -->
 <main>
-  <!-- Breadcrumb -->
   <div class="breadcrumb">
     <a href="index.html">Inicio</a> &gt; <span>Carrera</span>
   </div>
 
-  <!-- Título dinámico -->
   <h2 id="careerTitle">Carrera</h2>
 
-  <!-- Ramos -->
   <div class="ramos" id="ramosContainer"></div>
 </main>
 
+<!-- ================= SCRIPT ================= -->
 <script>
-  /* ================= SUPABASE ================= */
+  /* ===== SUPABASE ===== */
   const supabase = window.supabase.createClient(
     "https://vcoritivebetnnlksgei.supabase.co",
     "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
@@ -171,8 +175,7 @@
     updateUI(session);
   });
 
-  /* ================= LÓGICA CARRERA ================= */
-
+  /* ===== LÓGICA CARRERA ===== */
   const params = new URLSearchParams(window.location.search);
   const carrera = params.get("carrera");
 
@@ -187,28 +190,15 @@
         "Ideas Políticas",
         "Fundamentos del Sistema Político",
         "Fundamentos del Estado y Gobierno",
-        "Lectura y Escritura Académica en Ciencia Política",
-        "Inglés I",
-        "Evolución de las Instituciones I",
-        "Pensamiento Político Clásico",
-        "Política Comparada I",
-        "Epistemología de las Ciencias Sociales",
-        "Derecho Administrativo y Ciencia Política",
-        "Relaciones Internacionales",
-        "Inglés II",
-        "Evolución de las Instituciones II",
-        "Pensamiento Político Moderno",
-        "Política Comparada II",
-        "Metodología de la Investigación en Ciencia Política",
-        "Matemática I",
-        "Gobierno Subnacional",
-        "Inglés III",
-        "Instituciones Contemporáneas",
-        "Pensamiento Político Contemporáneo",
-        "Método Cualitativo",
-        "Desafíos de la Globalización",
-        "Matemática II",
-        "Inglés IV"
+        "Lectura y Escritura Académica en Ciencia Política"
+      ]
+    },
+    ap: {
+      nombre: "Administración Pública",
+      ramos: [
+        "Introducción a la Gestión Pública",
+        "Evolución de la Administración Pública",
+        "Gestión Financiera del Estado"
       ]
     }
   };
