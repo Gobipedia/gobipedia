@@ -14,18 +14,37 @@
       background: linear-gradient(180deg, #e6f4ff, #ffffff);
     }
 
+    /* ===== HEADER FIJO ===== */
     header {
       background-color: #0b5ed7;
       color: white;
-      padding: 20px;
+      height: 80px;                 /* 🔒 ALTURA FIJA */
+      padding: 0 24px;              /* ❌ sin padding vertical */
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
+    /* ===== LOGO GOBIPEDIA ===== */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      height: 100%;                 /* ocupa todo el header */
+    }
+
+    .logo img {
+      height: 100%;                 /* 🔑 toca arriba y abajo */
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo span {
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      line-height: 1;
     }
 
     header button {
@@ -45,6 +64,7 @@
       font-size: 14px;
     }
 
+    /* ===== MAIN ===== */
     main {
       padding: 40px;
       text-align: center;
@@ -80,28 +100,6 @@
       color: #555;
       font-size: 14px;
     }
-/* ===== LOGO GOBIPEDIA (VERSIÓN GRANDE) ===== */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-}
-
-/* Mascota más grande para ocupar toda la altura del header */
-.logo img {
-  height: 60px;      /* aumenta esto si quieres aún más grande */
-  width: auto;
-  object-fit: contain;
-}
-
-/* Texto también más grande para equilibrar */
-.logo span {
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-}
-
   </style>
 </head>
 
@@ -110,9 +108,9 @@
   <!-- HEADER -->
   <header>
     <div class="logo" onclick="location.href='index.html'">
-  <img src="mascot.png" alt="Mascota Gobipedia">
-  <span>GOBIPEDIA</span>
-</div>
+      <img src="mascot.png" alt="Mascota Gobipedia">
+      <span>GOBIPEDIA</span>
+    </div>
 
     <!-- ÁREA DINÁMICA DE USUARIO -->
     <div id="userArea">
@@ -147,22 +145,18 @@
     </div>
   </main>
 
-  <!-- SCRIPT DE SESIÓN (ARREGLADO) -->
+  <!-- SCRIPT DE SESIÓN -->
   <script>
-    /* 1. Inicializar Supabase */
     const supabase = window.supabase.createClient(
       "https://vcoritivebetnnlksgei.supabase.co",
       "sb_publishable_iaz-FQ8wkgebZsFDoXLZ0Q_LVhoucy9"
     );
 
-    /* 2. Función central para actualizar la UI */
     function updateUI(session) {
       const userArea = document.getElementById("userArea");
-
       if (!userArea) return;
 
       if (session) {
-        // Usuario logueado
         userArea.innerHTML = `
           <div class="user-info">
             <span>${session.user.email}</span>
@@ -170,7 +164,6 @@
           </div>
         `;
       } else {
-        // Usuario NO logueado
         userArea.innerHTML = `
           <a href="login.html">
             <button>Ingresar a la comunidad</button>
@@ -179,17 +172,14 @@
       }
     }
 
-    /* 3. Logout */
     async function logout() {
       await supabase.auth.signOut();
     }
 
-    /* 4. Estado inicial al cargar la página */
     supabase.auth.getSession().then(({ data }) => {
       updateUI(data.session);
     });
 
-    /* 5. Escuchar cambios de sesión (CLAVE) */
     supabase.auth.onAuthStateChange((_event, session) => {
       updateUI(session);
     });
