@@ -80,6 +80,25 @@
       color: #555;
       font-size: 14px;
     }
+    /* ===== LOGO GOBIPEDIA ===== */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logo img {
+  height: 46px;
+  width: auto;
+}
+
+.logo span {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
   </style>
 </head>
 
@@ -87,7 +106,10 @@
 
   <!-- HEADER -->
   <header>
-    <h1>🐬 GOBIPEDIA</h1>
+    <div class="logo" onclick="location.href='index.html'">
+  <img src="mascot.png" alt="Mascota Gobipedia">
+  <span>GOBIPEDIA</span>
+</div>
 
     <!-- ÁREA DINÁMICA DE USUARIO -->
     <div id="userArea">
